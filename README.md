@@ -18,7 +18,7 @@ RESTful API for managing products and categories. It allows you to register, edi
 ## 🚀 Como rodar o projeto / How to run the project
 1. Clone o repositório / Clone the repository:
    ```bash
-   git clone https://github.com/seu-usuario/CatalogoAPI.git
+   git clone https://github.com/LentineGabriel/CatalogoAPI.git
    cd CatalogoAPI
    ```
 
