@@ -18,12 +18,11 @@ public class CategoriasController : ControllerBase
 
     // GET
     [HttpGet]
-    public ActionResult<IEnumerable<Categoria>> Get()
+    public async Task<ActionResult<IEnumerable<Categoria>>> Get()
     {
         try
         {
-            var categorias = _context.Categorias.AsNoTracking().ToList();
-
+            var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
             if(categorias == null) return NotFound();
 
             return categorias;
@@ -35,57 +34,88 @@ public class CategoriasController : ControllerBase
     }
 
     [HttpGet("ComProdutos")]
-    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoriasProdutos()
     {
-        // return _context.Categorias.Include(p => p.Produtos).AsNoTracking().ToList();
-        return _context.Categorias.Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).AsNoTracking().ToList();
+        try
+        {
+            var categorias = await _context.Categorias.Include(p => p.Produtos).AsNoTracking().ToListAsync();
+
+            return categorias;
+        }
+        catch(Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError , "Ocorreu um problema ao tratar a sua solicitação.");
+        }
     }
 
     // GET ID
-    [HttpGet("{id:int}" , Name = "ObterCategoria")]
-    public ActionResult<Categoria> Get(int id)
+    [HttpGet("{id:int:min(1)}" , Name = "ObterCategoria")]
+    public async Task<ActionResult<Categoria>> Get(int id)
     {
-        var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
+        try
+        {
+            var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
+            if(categoria == null) return NotFound();
 
-        if(categoria == null) return NotFound();
-
-        return Ok(categoria);
+            return categoria;
+        }
+        catch(Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError , "Ocorreu um problema ao tratar a sua solicitação.");
+        }
     }
 
     // POST
     [HttpPost("AdicionarCategoria")]
-    public ActionResult Post(Categoria c)
+    public async Task<ActionResult> Post(Categoria c)
     {
-        if(c == null) return BadRequest();
+        try
+        {
+            if(c == null) return BadRequest();
 
-        _context.Categorias.Add(c);
-        _context.SaveChanges();
+            await _context.Categorias.AddAsync(c);
+            await _context.SaveChangesAsync();
 
-        return new CreatedAtRouteResult("ObterCategoria" , new { id = c.CategoriaId } , c);
+            return new CreatedAtRouteResult("ObterCategoria" , new { id = c.CategoriaId } , c);
+        }
+        catch(Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError , "Ocorreu um problema ao tratar a sua solicitação.");
+        }
     }
 
     // PUT
-    [HttpPut("AtualizarCategoria/{id:int}")]
-    public ActionResult Put(int id , Categoria c)
+    [HttpPut("AtualizarCategoria/{id:int:min(1)}")]
+    public async Task<ActionResult> Put(int id , Categoria c)
     {
-        if(id != c.CategoriaId) return BadRequest();
+        try
+        {
+            if(id != c.CategoriaId) return BadRequest();
 
-        _context.Entry(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        _context.SaveChanges();
+            var categoriaExistente = await _context.Categorias.FindAsync(id);
+            if(categoriaExistente == null) return NotFound("Categoria não localizada!");
 
-        return Ok(c);
+            categoriaExistente.CategoriaNome = c.CategoriaNome;
+            categoriaExistente.CategoriaImagemUrl = c.CategoriaImagemUrl;
+
+            await _context.SaveChangesAsync();
+            return Ok(categoriaExistente);
+        }
+        catch(Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError , "Ocorreu um problema ao tratar a sua solicitação.");
+        }
     }
 
     // DELETE
-    [HttpDelete("DeletarCategoria/{id:int}")]
-    public ActionResult Delete(int id)
+    [HttpDelete("DeletarCategoria/{id:int:min(1)}")]
+    public async Task<ActionResult> Delete(int id)
     {
-        var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
-
+        var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
         if(categoria == null) return NotFound("Categoria não localizada!");
 
         _context.Categorias.Remove(categoria);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return Ok(categoria);
     }

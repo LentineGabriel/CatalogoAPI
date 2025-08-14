@@ -21,22 +21,6 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Post",
-    "RelativePath": "Categorias",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "c",
-        "Type": "CatagoloAPI.Models.Categoria",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
     "Method": "Get",
     "RelativePath": "Categorias/{id}",
     "HttpMethod": "GET",
@@ -64,8 +48,24 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
+    "Method": "Post",
+    "RelativePath": "Categorias/AdicionarCategoria",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "c",
+        "Type": "CatagoloAPI.Models.Categoria",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
     "Method": "Put",
-    "RelativePath": "Categorias/{id}",
+    "RelativePath": "Categorias/AtualizarCategoria/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -85,24 +85,8 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Delete",
-    "RelativePath": "Categorias/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
     "Method": "GetCategoriasProdutos",
-    "RelativePath": "Categorias/produtos",
+    "RelativePath": "Categorias/ComProdutos",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -118,6 +102,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
+    "Method": "Delete",
+    "RelativePath": "Categorias/DeletarCategoria/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
@@ -138,22 +138,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "Post",
-    "RelativePath": "Produtos",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "p",
-        "Type": "CatagoloAPI.Models.Produto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
@@ -184,8 +168,24 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
+    "Method": "Post",
+    "RelativePath": "Produtos/AdicionarProduto",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "p",
+        "Type": "CatagoloAPI.Models.Produto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
     "Method": "Put",
-    "RelativePath": "Produtos/{id}",
+    "RelativePath": "Produtos/AtualizarProduto/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -206,7 +206,7 @@
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
     "Method": "Delete",
-    "RelativePath": "Produtos/{id}",
+    "RelativePath": "Produtos/DeletarProduto/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,

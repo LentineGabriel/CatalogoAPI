@@ -41,38 +41,9 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Categorias"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Categoria"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Categoria"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Categoria"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
-    "/Categorias/produtos": {
+    "/Categorias/ComProdutos": {
       "get": {
         "tags": [
           "Categorias"
@@ -122,6 +93,7 @@
             "in": "path",
             "required": true,
             "schema": {
+              "minimum": 1,
               "type": "integer",
               "format": "int32"
             }
@@ -149,7 +121,40 @@
             }
           }
         }
-      },
+      }
+    },
+    "/Categorias/AdicionarCategoria": {
+      "post": {
+        "tags": [
+          "Categorias"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Categoria"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Categorias/AtualizarCategoria/{id}": {
       "put": {
         "tags": [
           "Categorias"
@@ -160,6 +165,7 @@
             "in": "path",
             "required": true,
             "schema": {
+              "minimum": 1,
               "type": "integer",
               "format": "int32"
             }
@@ -189,7 +195,9 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/Categorias/DeletarCategoria/{id}": {
       "delete": {
         "tags": [
           "Categorias"
@@ -200,6 +208,7 @@
             "in": "path",
             "required": true,
             "schema": {
+              "minimum": 1,
               "type": "integer",
               "format": "int32"
             }
@@ -248,7 +257,51 @@
             }
           }
         }
-      },
+      }
+    },
+    "/Produtos/{id}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "operationId": "ObterProduto",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Produtos/AdicionarProduto": {
       "post": {
         "tags": [
           "Produtos"
@@ -279,46 +332,7 @@
         }
       }
     },
-    "/Produtos/{id}": {
-      "get": {
-        "tags": [
-          "Produtos"
-        ],
-        "operationId": "ObterProduto",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Produto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Produto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Produto"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/Produtos/AtualizarProduto/{id}": {
       "put": {
         "tags": [
           "Produtos"
@@ -329,6 +343,7 @@
             "in": "path",
             "required": true,
             "schema": {
+              "minimum": 1,
               "type": "integer",
               "format": "int32"
             }
@@ -358,7 +373,9 @@
             "description": "OK"
           }
         }
-      },
+      }
+    },
+    "/Produtos/DeletarProduto/{id}": {
       "delete": {
         "tags": [
           "Produtos"
@@ -369,6 +386,7 @@
             "in": "path",
             "required": true,
             "schema": {
+              "minimum": 1,
               "type": "integer",
               "format": "int32"
             }
