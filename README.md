@@ -32,8 +32,8 @@ RESTful API for managing products and categories. It allows you to register, edi
    dotnet run
    ```
 
-> A API estará disponível em: `https://localhost:7112`<br>
-> The API will be available at: `https://localhost:7112`
+> A API estará disponível em: `https://localhost:7112/swagger`<br>
+> The API will be available at: `https://localhost:7112/swagger`
 
 ---
 
