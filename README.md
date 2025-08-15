@@ -124,6 +124,7 @@ Ou importar para o Postman manualmente.
 
 - Certifique-se de ter um banco MySQL rodando e configurado.
 - Os dados de conexão estão em `appsettings.json`.
+- O projeto está em desenvolvimento seguindo o curso presente em meu perfil de estudos: <a href="https://github.com/GabrielLentine/CSharp_APIs">Repositório do Projeto</a>
 
 ---
 
