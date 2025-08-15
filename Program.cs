@@ -1,4 +1,5 @@
 using CatagoloAPI.Context;
+using CatagoloAPI.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,7 @@ if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ConfigureExceptionHandler();
 }
 
 app.UseHttpsRedirection();
