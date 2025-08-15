@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CatagoloAPI.Validations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -12,6 +13,7 @@ public class Produto
 
     [Required(ErrorMessage = "O nome é obrigatório!")]
     [StringLength(80 , MinimumLength = 2 , ErrorMessage = "O nome deve ter entre 2 e 80 caracteres.")]
+    [FirstLetterCaptalized]
     public string? ProdutoNome { get; set; }
 
     [Required]
@@ -27,10 +29,15 @@ public class Produto
     [StringLength(300 , MinimumLength = 5 , ErrorMessage = "O caminho da imagem deve ter entre 5 e 300 caracteres.")]
     public string? ProdutoImagemUrl { get; set; }
 
-    /* ===================== */
-
+    [Required]
+    [Range(1 , 999 , ErrorMessage = "O estoque deve estar entre {1} e {2}.")]
+    [Column(TypeName = "decimal(10,2)")]
     public float ProdutoEstoque { get; set; }
+
+    [Required]
     public DateTime DataCadastro { get; set; }
+
+    [RequiredCategoriaId]
     public int CategoriaId { get; set; }
 
     [JsonIgnore]
