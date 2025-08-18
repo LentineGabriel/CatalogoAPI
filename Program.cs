@@ -1,5 +1,6 @@
 using CatagoloAPI.Context;
 using CatagoloAPI.Extensions;
+using CatagoloAPI.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -17,6 +18,11 @@ var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultCo
 builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.UseMySql(mySqlConnectionString ,
                                             ServerVersion.AutoDetect(mySqlConnectionString)));
+
+builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfig
+{
+    LogLevel = LogLevel.Information
+}));
 
 var app = builder.Build();
 

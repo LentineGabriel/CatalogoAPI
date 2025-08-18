@@ -2,31 +2,29 @@
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
-namespace CatagoloAPI.Extensions
+namespace CatagoloAPI.Extensions;
+public static class ApiExceptionMiddlewareExtensions
 {
-    public static class ApiExceptionMiddlewareExtensions
+    public static void ConfigureExceptionHandler(this IApplicationBuilder app)
     {
-        public static void ConfigureExceptionHandler(this IApplicationBuilder app)
+        app.UseExceptionHandler(appError =>
         {
-            app.UseExceptionHandler(appError =>
+            appError.Run(async context =>
             {
-                appError.Run(async context =>
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // 500
-                    context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // 500
+                context.Response.ContentType = "application/json";
 
-                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    if(contextFeature != null)
+                var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                if(contextFeature != null)
+                {
+                    await context.Response.WriteAsync(new ErrorDetails()
                     {
-                        await context.Response.WriteAsync(new ErrorDetails()
-                        {
-                            StatusCode = context.Response.StatusCode ,
-                            Message = contextFeature.Error.Message ,
-                            Trace = contextFeature.Error.StackTrace
-                        }.ToString());
-                    }
-                });
+                        StatusCode = context.Response.StatusCode ,
+                        Message = contextFeature.Error.Message ,
+                        Trace = contextFeature.Error.StackTrace
+                    }.ToString());
+                }
             });
-        }
+        });
     }
 }
