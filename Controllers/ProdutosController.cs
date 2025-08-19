@@ -10,10 +10,12 @@ namespace CatagoloAPI.Controllers;
 public class ProdutosController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<ProdutosController> _logger;
 
-    public ProdutosController(AppDbContext context)
+    public ProdutosController(AppDbContext context , ILogger<ProdutosController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     // GET
@@ -22,6 +24,7 @@ public class ProdutosController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("===== Get/Produtos =====");
             var produtos = await _context.Produtos.AsNoTracking().ToListAsync();
             if(produtos == null) return NotFound();
 
@@ -39,6 +42,7 @@ public class ProdutosController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"===== Get/Produtos/id = {id} =====");
             var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
             if(produto == null) return NotFound();
 
@@ -56,6 +60,7 @@ public class ProdutosController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("===== Post/Produtos/AdicionarProduto =====");
             if(p == null) return BadRequest();
 
             await _context.Produtos.AddAsync(p);
@@ -73,9 +78,11 @@ public class ProdutosController : ControllerBase
     [HttpPut("AtualizarProduto/{id:int:min(1)}")]
     public async Task<ActionResult> Put(int id , Produto p)
     {
-        // garantindo que o produto exista antes de atualizar
         try
         {
+            _logger.LogInformation($"===== Put/Produtos/AtualizarProduto/id = {id} =====");
+
+            // garantindo que o produto exista antes de atualizar
             if(id != p.ProdutoId) return BadRequest();
 
             var produtoExistente = await _context.Produtos.FindAsync(id);
@@ -100,6 +107,7 @@ public class ProdutosController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"===== Delete/Produtos/id = {id} =====");
             var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.ProdutoId == id);
             if(produto == null) return NotFound("Produto não localizado!");
 

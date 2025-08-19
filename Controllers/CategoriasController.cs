@@ -10,10 +10,12 @@ namespace CatagoloAPI.Controllers;
 public class CategoriasController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly ILogger<CategoriasController> _logger;
 
-    public CategoriasController(AppDbContext context)
+    public CategoriasController(AppDbContext context , ILogger<CategoriasController> logger)
     {
         _context = context;
+        _logger = logger;
     }
 
     // GET
@@ -22,6 +24,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("===== Get/Categorias =====");
             var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
             if(categorias == null) return NotFound();
 
@@ -38,6 +41,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("===== Get/Categorias/ComProdutos =====");
             var categorias = await _context.Categorias.Include(p => p.Produtos).AsNoTracking().ToListAsync();
 
             return categorias;
@@ -54,6 +58,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"===== Get/Categorias/ id = {id} =====");
             var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
             if(categoria == null) return NotFound();
 
@@ -71,6 +76,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation("===== Post/Categorias/AdicionarCategoria =====");
             if(c == null) return BadRequest();
 
             await _context.Categorias.AddAsync(c);
@@ -90,6 +96,7 @@ public class CategoriasController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"===== Put/Categorias/AtualizarCategoria/id = {id} =====");
             if(id != c.CategoriaId) return BadRequest();
 
             var categoriaExistente = await _context.Categorias.FindAsync(id);
@@ -111,12 +118,20 @@ public class CategoriasController : ControllerBase
     [HttpDelete("DeletarCategoria/{id:int:min(1)}")]
     public async Task<ActionResult> Delete(int id)
     {
-        var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
-        if(categoria == null) return NotFound("Categoria não localizada!");
+        try
+        {
+            _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");
+            var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
+            if(categoria == null) return NotFound("Categoria não localizada!");
 
-        _context.Categorias.Remove(categoria);
-        await _context.SaveChangesAsync();
+            _context.Categorias.Remove(categoria);
+            await _context.SaveChangesAsync();
 
-        return Ok(categoria);
+            return Ok(categoria);
+        }
+        catch(Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError , "Ocorreu um problema ao tratar a sua solicitação.");
+        }
     }
 }

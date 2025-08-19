@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\logging\\customerlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:logging\\customerlogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\controllers\\categoriascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:controllers\\categoriascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\logging\\customloggerproviderconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:logging\\customloggerproviderconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\logging\\customloggerprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:logging\\customloggerprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|c:\\users\\gabri\\onedrive\\\u00E1rea de trabalho\\catalogoapi\\controllers\\categoriascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4BE738A-9F8B-48D1-A28C-983D75AB8493}|CatagoloAPI.csproj|solutionrelative:controllers\\categoriascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,54 +46,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CustomLoggerProviderConfig.cs",
-              "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomLoggerProviderConfig.cs",
-              "RelativeDocumentMoniker": "Logging\\CustomLoggerProviderConfig.cs",
-              "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomLoggerProviderConfig.cs",
-              "RelativeToolTip": "Logging\\CustomLoggerProviderConfig.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA+AAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ProdutosController.cs",
+              "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Controllers\\ProdutosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProdutosController.cs",
+              "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Controllers\\ProdutosController.cs",
+              "RelativeToolTip": "Controllers\\ProdutosController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-18T18:17:34.38Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CustomLoggerProvider.cs",
-              "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomLoggerProvider.cs",
-              "RelativeDocumentMoniker": "Logging\\CustomLoggerProvider.cs",
-              "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomLoggerProvider.cs",
-              "RelativeToolTip": "Logging\\CustomLoggerProvider.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-18T18:17:12.724Z",
+              "WhenOpened": "2025-08-19T16:40:52.387Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CustomerLogger.cs",
-              "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomerLogger.cs",
-              "RelativeDocumentMoniker": "Logging\\CustomerLogger.cs",
-              "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Logging\\CustomerLogger.cs",
-              "RelativeToolTip": "Logging\\CustomerLogger.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAIwCAAAABOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-18T18:16:46.926Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "CategoriasController.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Controllers\\CategoriasController.cs",
               "RelativeDocumentMoniker": "Controllers\\CategoriasController.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Controllers\\CategoriasController.cs",
               "RelativeToolTip": "Controllers\\CategoriasController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABoAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-18T18:10:06.108Z",
+              "WhenOpened": "2025-08-19T16:37:10.867Z",
               "EditorCaption": ""
             },
             {
@@ -112,20 +78,20 @@
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-08-15T16:05:59.237Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\gabri\\OneDrive\\\u00C1rea de Trabalho\\CatalogoAPI\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-24T21:23:51.633Z",
               "EditorCaption": ""
