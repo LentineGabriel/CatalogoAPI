@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CatagoloAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ff4231c0c73e931fc6241d31c520cdbd0b706a9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4e6c6ebf2f816f098b69496db70b685ca3cdedd")]
 [assembly: System.Reflection.AssemblyProductAttribute("CatagoloAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CatagoloAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
