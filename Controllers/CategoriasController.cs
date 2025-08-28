@@ -1,5 +1,6 @@
 ﻿using CatagoloAPI.Context;
 using CatagoloAPI.Models;
+using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,87 +10,103 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly ICategoriaRepository _repo;
     private readonly ILogger<CategoriasController> _logger;
 
-    public CategoriasController(AppDbContext context , ILogger<CategoriasController> logger)
+    public CategoriasController(ICategoriaRepository repo, ILogger<CategoriasController> logger)
     {
-        _context = context;
+        _repo = repo;
         _logger = logger;
     }
 
     // GET
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Categoria>>> Get()
+    public ActionResult<IEnumerable<Categoria>> Get()
     {
-        _logger.LogInformation("===== Get/Categorias =====");
-        var categorias = await _context.Categorias.AsNoTracking().ToListAsync();
-        if(categorias == null) return NotFound();
+        _logger.LogInformation("===== Get/TodasAsCategorias =====");
+        var categorias = _repo.GetAll();
 
-        return categorias;
+        if (categorias == null)
+        {
+            _logger.LogInformation("===== Erro 404: Categorias não encontradas =====");
+            return NotFound("Categorias não encontradas");
+        }
+
+        return Ok(categorias);
     }
 
+    // GET COM PRODUTOS
     [HttpGet("ComProdutos")]
-    public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoriasProdutos()
+    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
     {
         _logger.LogInformation("===== Get/Categorias/ComProdutos =====");
-        var categorias = await _context.Categorias.Include(p => p.Produtos).AsNoTracking().ToListAsync();
-
-        return categorias;
+        var produtos = _repo.GetAllWithProducts();
+        
+        return Ok(produtos);
     }
 
     // GET ID
-    [HttpGet("{id:int:min(1)}" , Name = "ObterCategoria")]
-    public async Task<ActionResult<Categoria>> Get(int id)
+    [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
+    public ActionResult<Categoria> Get(int id)
     {
-        _logger.LogInformation($"===== Get/Categorias/ id = {id} =====");
-        var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
-        if(categoria == null) return NotFound();
+        _logger.LogInformation($"===== Get/Categorias/id = {id} =====");
+        var categoria = _repo.GetById(id);
 
-        return categoria;
+        if (categoria == null)
+        {
+            _logger.LogInformation($"===== Get/Categorias/id = {id} não encontrado =====");
+            return NotFound($"Categoria com ID = {id} não encontrado!");
+        }
+
+        return Ok(categoria);
     }
 
     // POST
     [HttpPost("AdicionarCategoria")]
-    public async Task<ActionResult> Post(Categoria c)
+    public ActionResult<Categoria> Post(Categoria c)
     {
         _logger.LogInformation("===== Post/Categorias/AdicionarCategoria =====");
-        if(c == null) return BadRequest();
+        if (c == null)
+        {
+            _logger.LogInformation("===== Erro 400: Não foi possível adicionar uma nova categoria =====");
+            return BadRequest("Não foi possível adicionar uma nova categoria. Tente novamente mais tarde!");
+        }
 
-        await _context.Categorias.AddAsync(c);
-        await _context.SaveChangesAsync();
+        var categoriaCriada = _repo.Create(c);
 
-        return new CreatedAtRouteResult("ObterCategoria" , new { id = c.CategoriaId } , c);
+        return new CreatedAtRouteResult("ObterCategoria" , new { id = categoriaCriada.CategoriaId } , categoriaCriada);
     }
 
     // PUT
     [HttpPut("AtualizarCategoria/{id:int:min(1)}")]
-    public async Task<ActionResult> Put(int id , Categoria c)
+    public ActionResult<Categoria> Put(int id, Categoria c)
     {
         _logger.LogInformation($"===== Put/Categorias/AtualizarCategoria/id = {id} =====");
-        if(id != c.CategoriaId) return BadRequest();
+        if (id != c.CategoriaId)
+        {
+            _logger.LogInformation("===== Erro 400: O id é diferente do que consta no banco de dados =====");
+            return BadRequest("O id é diferente do que consta no banco de dados");
+        }
 
-        var categoriaExistente = await _context.Categorias.FindAsync(id);
-        if(categoriaExistente == null) return NotFound("Categoria não localizada!");
+        var categoriaExistente = _repo.Update(c);
 
-        categoriaExistente.CategoriaNome = c.CategoriaNome;
-        categoriaExistente.CategoriaImagemUrl = c.CategoriaImagemUrl;
-
-        await _context.SaveChangesAsync();
         return Ok(categoriaExistente);
     }
 
     // DELETE
     [HttpDelete("DeletarCategoria/{id:int:min(1)}")]
-    public async Task<ActionResult> Delete(int id)
+    public ActionResult<Categoria> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");
-        var categoria = await _context.Categorias.FirstOrDefaultAsync(c => c.CategoriaId == id);
-        if(categoria == null) return NotFound("Categoria não localizada!");
-
-        _context.Categorias.Remove(categoria);
-        await _context.SaveChangesAsync();
-
-        return Ok(categoria);
+        var deletarCategoria = _repo.GetById(id);
+        if (deletarCategoria == null)
+        {
+            _logger.LogInformation($"===== Categoria com o id = {id} não encontrada =====");
+            return NotFound("Categoria não localizada! Verifique o ID digitado");
+        }
+        
+        var categoriaExcluida = _repo.Delete(id);
+        
+        return Ok(categoriaExcluida);
     }
 }

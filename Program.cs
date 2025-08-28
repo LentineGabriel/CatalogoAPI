@@ -4,6 +4,8 @@ using CatagoloAPI.Filters;
 using CatagoloAPI.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using CatagoloAPI.Repositories;
+using CatagoloAPI.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultCo
 builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.UseMySql(mySqlConnectionString ,
                                             ServerVersion.AutoDetect(mySqlConnectionString)));
+
+builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfig
 {

@@ -6,14 +6,13 @@ using System.Text.Json.Serialization;
 namespace CatagoloAPI.Models;
 
 [Table("Produtos")]
-public class Produto
+public class Produto : IValidatableObject
 {
     [Key]
     public int ProdutoId { get; set; }
 
     [Required(ErrorMessage = "O nome é obrigatório!")]
     [StringLength(80 , MinimumLength = 2 , ErrorMessage = "O nome deve ter entre 2 e 80 caracteres.")]
-    [FirstLetterCaptalized]
     public string? ProdutoNome { get; set; }
 
     [Required]
@@ -42,4 +41,21 @@ public class Produto
 
     [JsonIgnore]
     public Categoria? Categoria { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!string.IsNullOrEmpty(ProdutoNome))
+        {
+            var primeiraLetra = ProdutoNome[0].ToString();
+            if (primeiraLetra != primeiraLetra.ToUpper())
+            {
+                yield return new ValidationResult("A primeira letra do nome do produto deve ser maiúscula.", new []{nameof(ProdutoNome)});
+            }
+            
+            if (ProdutoEstoque <= 0)
+            {
+                yield return new ValidationResult("O estoque deve ser maior que zero.", new []{nameof(ProdutoEstoque)});
+            }
+        }
+    }
 }

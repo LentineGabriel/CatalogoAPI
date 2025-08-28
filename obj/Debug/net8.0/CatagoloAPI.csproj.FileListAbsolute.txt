@@ -465,10 +465,3 @@ C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\refint\Ca
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\ref\CatagoloAPI.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\rpswa.dswa.cache.json
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\rjimswa.dswa.cache.json
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

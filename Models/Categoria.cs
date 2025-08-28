@@ -1,11 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CatagoloAPI.Validations;
 
 namespace CatagoloAPI.Models;
 
 [Table("Categorias")]
-public class Categoria
+public class Categoria : IValidatableObject
 {
     [Key]
     public int CategoriaId { get; set; }
@@ -25,5 +26,17 @@ public class Categoria
     public Categoria()
     {
         Produtos = new Collection<Produto>();
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!string.IsNullOrEmpty(CategoriaNome))
+        {
+            var primeiraLetra = CategoriaNome[0].ToString();
+            if (primeiraLetra != primeiraLetra.ToUpper())
+            {
+                yield return new ValidationResult("A primeira letra do nome da categoria deve ser maiúscula.", new []{nameof(CategoriaNome)});
+            }
+        }
     }
 }
