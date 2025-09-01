@@ -2,11 +2,7 @@
 
 namespace CatagoloAPI.Repositories.Interfaces;
 
-public interface IProdutoRepository
+public interface IProdutoRepository  : IRepository<Produto>
 {
-    IEnumerable<Produto> GetAll();
-    Produto GetById(int id);
-    Produto Create(Produto produto);
-    Produto  Update(Produto produto);
-    Produto  Delete(int id);
+    IEnumerable<Produto> GetProductsWithCategory(int id);
 }

@@ -26,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.UseMySql(mySqlConnectionString ,
                                             ServerVersion.AutoDetect(mySqlConnectionString)));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 

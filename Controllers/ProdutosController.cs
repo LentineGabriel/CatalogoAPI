@@ -10,12 +10,14 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class ProdutosController : ControllerBase
 {
-    private readonly IProdutoRepository _repo;
+    private readonly IRepository<Produto> _repo;
+    private readonly IProdutoRepository _repoProducts;
     private readonly ILogger<ProdutosController> _logger;
 
-    public ProdutosController(IProdutoRepository repo, ILogger<ProdutosController> logger)
+    public ProdutosController(IRepository<Produto> repo, IProdutoRepository repoProducts, ILogger<ProdutosController> logger)
     {
         _repo = repo;
+        _repoProducts = repoProducts;
         _logger = logger;
     }
 
@@ -34,13 +36,29 @@ public class ProdutosController : ControllerBase
 
         return Ok(todosProdutos);
     }
+    
+    // GET PRODUTOS C/ CATEGORIA
+    [HttpGet("ComCategoria/{id:int:min(1)}")]
+    public ActionResult<Produto> GetProdutosCategoria(int id)
+    {
+        _logger.LogInformation("===== Get/Produtos/ComCategoria =====");
+        var produtos = _repoProducts.GetProductsWithCategory(id);
+
+        if (produtos == null)
+        {
+            _logger.LogInformation("===== Erro 404: Produtos não encontrados. Verificar o ID informada! =====");
+            return NotFound("Produtos não encontrados. Por favor, verifique o ID informado!");
+        }
+        
+        return Ok(produtos);
+    }
 
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
     public ActionResult<Produto> GetId(int id)
     {
         _logger.LogInformation($"===== Get/Produtos/id = {id} =====");
-        var produtoId = _repo.GetById(id);
+        var produtoId = _repo.Get(p => p.ProdutoId == id);
 
         if (produtoId == null)
         {
@@ -82,7 +100,7 @@ public class ProdutosController : ControllerBase
 
         var produtoExistente = _repo.Update(p);
         
-        return Ok(produtoExistente);
+        return Ok($"Produto de ID {id} atualizado com sucesso!");
     }
 
     // DELETE
@@ -90,15 +108,16 @@ public class ProdutosController : ControllerBase
     public ActionResult<Produto> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Produtos/id = {id} =====");
-        var deletarProduto = _repo.GetById(id);
+        var deletarProduto = _repo.Get(p => p.ProdutoId == id);
+        
         if (deletarProduto == null)
         {
             _logger.LogInformation($"===== Produto com o id = {id} não encontrada =====");
             return NotFound("Produto não localizado! Verifique o ID digitado.");
         }
 
-        var produtoDeletado = _repo.Delete(id);
+        var produtoDeletado = _repo.Delete(deletarProduto);
 
-        return Ok("Produto excluído: " + produtoDeletado);
+        return Ok($"Produto de ID {id} excluído com sucesso!");
     }
 }

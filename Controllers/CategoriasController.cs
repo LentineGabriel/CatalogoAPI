@@ -10,10 +10,10 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
-    private readonly ICategoriaRepository _repo;
+    private readonly IRepository<Categoria> _repo;
     private readonly ILogger<CategoriasController> _logger;
 
-    public CategoriasController(ICategoriaRepository repo, ILogger<CategoriasController> logger)
+    public CategoriasController(IRepository<Categoria> repo, ILogger<CategoriasController> logger)
     {
         _repo = repo;
         _logger = logger;
@@ -35,22 +35,12 @@ public class CategoriasController : ControllerBase
         return Ok(categorias);
     }
 
-    // GET COM PRODUTOS
-    [HttpGet("ComProdutos")]
-    public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
-    {
-        _logger.LogInformation("===== Get/Categorias/ComProdutos =====");
-        var produtos = _repo.GetAllWithProducts();
-        
-        return Ok(produtos);
-    }
-
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
     public ActionResult<Categoria> Get(int id)
     {
         _logger.LogInformation($"===== Get/Categorias/id = {id} =====");
-        var categoria = _repo.GetById(id);
+        var categoria = _repo.Get(c => c.CategoriaId == id);
 
         if (categoria == null)
         {
@@ -90,7 +80,7 @@ public class CategoriasController : ControllerBase
 
         var categoriaExistente = _repo.Update(c);
 
-        return Ok(categoriaExistente);
+        return Ok($"Categoria de ID {id} atualizada com sucesso!");
     }
 
     // DELETE
@@ -98,15 +88,16 @@ public class CategoriasController : ControllerBase
     public ActionResult<Categoria> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");
-        var deletarCategoria = _repo.GetById(id);
+        var deletarCategoria = _repo.Get(c => c.CategoriaId == id);
+        
         if (deletarCategoria == null)
         {
             _logger.LogInformation($"===== Categoria com o id = {id} não encontrada =====");
             return NotFound("Categoria não localizada! Verifique o ID digitado");
         }
         
-        var categoriaExcluida = _repo.Delete(id);
+        var categoriaExcluida = _repo.Delete(deletarCategoria);
         
-        return Ok(categoriaExcluida);
+        return Ok($"Categoria de ID {id} excluída com sucesso!");
     }
 }
