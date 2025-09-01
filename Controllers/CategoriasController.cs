@@ -10,12 +10,12 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
-    private readonly IRepository<Categoria> _repo;
+    private readonly IUnitOfWork _uof;
     private readonly ILogger<CategoriasController> _logger;
 
-    public CategoriasController(IRepository<Categoria> repo, ILogger<CategoriasController> logger)
+    public CategoriasController(IUnitOfWork uof, ILogger<CategoriasController> logger)
     {
-        _repo = repo;
+        _uof = uof;
         _logger = logger;
     }
 
@@ -24,7 +24,7 @@ public class CategoriasController : ControllerBase
     public ActionResult<IEnumerable<Categoria>> Get()
     {
         _logger.LogInformation("===== Get/TodasAsCategorias =====");
-        var categorias = _repo.GetAll();
+        var categorias = _uof.CategoriaRepository.GetAll();
 
         if (categorias == null)
         {
@@ -40,7 +40,7 @@ public class CategoriasController : ControllerBase
     public ActionResult<Categoria> Get(int id)
     {
         _logger.LogInformation($"===== Get/Categorias/id = {id} =====");
-        var categoria = _repo.Get(c => c.CategoriaId == id);
+        var categoria = _uof.CategoriaRepository.Get(c => c.CategoriaId == id);
 
         if (categoria == null)
         {
@@ -62,7 +62,8 @@ public class CategoriasController : ControllerBase
             return BadRequest("Não foi possível adicionar uma nova categoria. Tente novamente mais tarde!");
         }
 
-        var categoriaCriada = _repo.Create(c);
+        var categoriaCriada = _uof.CategoriaRepository.Create(c);
+        _uof.Commit();
 
         return new CreatedAtRouteResult("ObterCategoria" , new { id = categoriaCriada.CategoriaId } , categoriaCriada);
     }
@@ -78,9 +79,10 @@ public class CategoriasController : ControllerBase
             return BadRequest("O id é diferente do que consta no banco de dados");
         }
 
-        var categoriaExistente = _repo.Update(c);
+        var categoriaExistente = _uof.CategoriaRepository.Update(c);
+        _uof.Commit();
 
-        return Ok($"Categoria de ID {id} atualizada com sucesso!");
+        return Ok(categoriaExistente);
     }
 
     // DELETE
@@ -88,7 +90,7 @@ public class CategoriasController : ControllerBase
     public ActionResult<Categoria> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");
-        var deletarCategoria = _repo.Get(c => c.CategoriaId == id);
+        var deletarCategoria = _uof.CategoriaRepository.Get(c => c.CategoriaId == id);
         
         if (deletarCategoria == null)
         {
@@ -96,8 +98,9 @@ public class CategoriasController : ControllerBase
             return NotFound("Categoria não localizada! Verifique o ID digitado");
         }
         
-        var categoriaExcluida = _repo.Delete(deletarCategoria);
+        var categoriaExcluida = _uof.CategoriaRepository.Delete(deletarCategoria);
+        _uof.Commit();
         
-        return Ok($"Categoria de ID {id} excluída com sucesso!");
+        return Ok(categoriaExcluida);
     }
 }

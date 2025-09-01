@@ -10,14 +10,12 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class ProdutosController : ControllerBase
 {
-    private readonly IRepository<Produto> _repo;
-    private readonly IProdutoRepository _repoProducts;
+    private readonly IUnitOfWork _uof;
     private readonly ILogger<ProdutosController> _logger;
 
-    public ProdutosController(IRepository<Produto> repo, IProdutoRepository repoProducts, ILogger<ProdutosController> logger)
+    public ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger)
     {
-        _repo = repo;
-        _repoProducts = repoProducts;
+        _uof = uof;
         _logger = logger;
     }
 
@@ -26,7 +24,7 @@ public class ProdutosController : ControllerBase
     public ActionResult<IEnumerable<Produto>> Get()
     {
         _logger.LogInformation("===== Get/Produtos =====");
-        var todosProdutos = _repo.GetAll();
+        var todosProdutos = _uof.ProdutoRepository.GetAll();
 
         if (todosProdutos == null)
         {
@@ -42,7 +40,7 @@ public class ProdutosController : ControllerBase
     public ActionResult<Produto> GetProdutosCategoria(int id)
     {
         _logger.LogInformation("===== Get/Produtos/ComCategoria =====");
-        var produtos = _repoProducts.GetProductsWithCategory(id);
+        var produtos = _uof.ProdutoRepository.GetProductsWithCategory(id);
 
         if (produtos == null)
         {
@@ -58,7 +56,7 @@ public class ProdutosController : ControllerBase
     public ActionResult<Produto> GetId(int id)
     {
         _logger.LogInformation($"===== Get/Produtos/id = {id} =====");
-        var produtoId = _repo.Get(p => p.ProdutoId == id);
+        var produtoId = _uof.ProdutoRepository.Get(p => p.ProdutoId == id);
 
         if (produtoId == null)
         {
@@ -80,7 +78,8 @@ public class ProdutosController : ControllerBase
             return BadRequest("Não foi possível adicionar um novo produto. Tente novamente mais tarde!");
         }
 
-        var produtoCriado = _repo.Create(p);
+        var produtoCriado = _uof.ProdutoRepository.Create(p);
+        _uof.Commit();
 
         return new CreatedAtRouteResult("ObterProduto" , new { id = produtoCriado.ProdutoId } , produtoCriado);
     }
@@ -98,9 +97,10 @@ public class ProdutosController : ControllerBase
             return BadRequest("O id é diferente do que consta no banco de dados");
         }
 
-        var produtoExistente = _repo.Update(p);
+        var produtoExistente = _uof.ProdutoRepository.Update(p);
+        _uof.Commit();
         
-        return Ok($"Produto de ID {id} atualizado com sucesso!");
+        return Ok(produtoExistente);
     }
 
     // DELETE
@@ -108,7 +108,7 @@ public class ProdutosController : ControllerBase
     public ActionResult<Produto> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Produtos/id = {id} =====");
-        var deletarProduto = _repo.Get(p => p.ProdutoId == id);
+        var deletarProduto = _uof.ProdutoRepository.Get(p => p.ProdutoId == id);
         
         if (deletarProduto == null)
         {
@@ -116,8 +116,9 @@ public class ProdutosController : ControllerBase
             return NotFound("Produto não localizado! Verifique o ID digitado.");
         }
 
-        var produtoDeletado = _repo.Delete(deletarProduto);
+        var produtoDeletado = _uof.ProdutoRepository.Delete(deletarProduto);
+        _uof.Commit();
 
-        return Ok($"Produto de ID {id} excluído com sucesso!");
+        return Ok(produtoDeletado);
     }
 }

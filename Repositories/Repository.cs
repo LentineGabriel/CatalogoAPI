@@ -14,14 +14,14 @@ public class Repository<T> : IRepository<T> where T : class
         _context = context;
     }
     
-    public IEnumerable<T> GetAll()  => _context.Set<T>().ToList();
+    public IEnumerable<T> GetAll()  => _context.Set<T>().AsNoTracking().ToList();
 
     public T? Get(Expression<Func<T, bool>> predicate) => _context.Set<T>().FirstOrDefault(predicate);
 
     public T Create(T item)
     {
         _context.Set<T>().Add(item);
-        _context.SaveChanges();
+        // _context.SaveChanges();
         
         return item;
     }
@@ -29,7 +29,7 @@ public class Repository<T> : IRepository<T> where T : class
     public T Update(T item)
     {
         _context.Set<T>().Update(item);
-        _context.SaveChanges();
+        // _context.SaveChanges();
         
         return item;
     }
@@ -37,7 +37,7 @@ public class Repository<T> : IRepository<T> where T : class
     public T Delete(T item)
     {
         _context.Set<T>().Remove(item);
-        _context.SaveChanges();
+        // _context.SaveChanges();
         
         return item;
     }
