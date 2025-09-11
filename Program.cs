@@ -4,6 +4,7 @@ using CatagoloAPI.Filters;
 using CatagoloAPI.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using CatagoloAPI.DTO.Mappings;
 using CatagoloAPI.Repositories;
 using CatagoloAPI.Repositories.Interfaces;
 
@@ -30,6 +31,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(cfg => {}, typeof(MappingProfile));
 
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfig
 {

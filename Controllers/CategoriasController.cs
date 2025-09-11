@@ -1,4 +1,6 @@
-﻿using CatagoloAPI.Context;
+﻿using AutoMapper;
+using CatagoloAPI.Context;
+using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,16 +14,18 @@ public class CategoriasController : ControllerBase
 {
     private readonly IUnitOfWork _uof;
     private readonly ILogger<CategoriasController> _logger;
+    private readonly IMapper _mapper;
 
-    public CategoriasController(IUnitOfWork uof, ILogger<CategoriasController> logger)
+    public CategoriasController(IUnitOfWork uof, ILogger<CategoriasController> logger, IMapper mapper)
     {
         _uof = uof;
         _logger = logger;
+        _mapper = mapper;
     }
 
     // GET
     [HttpGet]
-    public ActionResult<IEnumerable<Categoria>> Get()
+    public ActionResult<IEnumerable<CategoriaDTO>> Get()
     {
         _logger.LogInformation("===== Get/TodasAsCategorias =====");
         var categorias = _uof.CategoriaRepository.GetAll();
@@ -32,28 +36,32 @@ public class CategoriasController : ControllerBase
             return NotFound("Categorias não encontradas");
         }
 
-        return Ok(categorias);
+        var categoriasDTO = _mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
+
+        return Ok(categoriasDTO);
     }
 
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
-    public ActionResult<Categoria> Get(int id)
+    public ActionResult<CategoriaDTO> Get(int id)
     {
         _logger.LogInformation($"===== Get/Categorias/id = {id} =====");
-        var categoria = _uof.CategoriaRepository.Get(c => c.CategoriaId == id);
+        var categoriaId = _uof.CategoriaRepository.Get(c => c.CategoriaId == id);
 
-        if (categoria == null)
+        if (categoriaId == null)
         {
             _logger.LogInformation($"===== Get/Categorias/id = {id} não encontrado =====");
             return NotFound($"Categoria com ID = {id} não encontrado!");
         }
 
-        return Ok(categoria);
+        var categoriaDTO = _mapper.Map<CategoriaDTO>(categoriaId);
+
+        return Ok(categoriaDTO);
     }
 
     // POST
     [HttpPost("AdicionarCategoria")]
-    public ActionResult<Categoria> Post(Categoria c)
+    public ActionResult<CategoriaDTO> Post(CategoriaDTO c)
     {
         _logger.LogInformation("===== Post/Categorias/AdicionarCategoria =====");
         if (c == null)
@@ -62,15 +70,19 @@ public class CategoriasController : ControllerBase
             return BadRequest("Não foi possível adicionar uma nova categoria. Tente novamente mais tarde!");
         }
 
-        var categoriaCriada = _uof.CategoriaRepository.Create(c);
+        var categoria = _mapper.Map<Categoria>(c);
+
+        var categoriaCriada = _uof.CategoriaRepository.Create(categoria);
         _uof.Commit();
 
-        return new CreatedAtRouteResult("ObterCategoria" , new { id = categoriaCriada.CategoriaId } , categoriaCriada);
+        var categoriaDTO = _mapper.Map<CategoriaDTO>(categoriaCriada);
+
+        return new CreatedAtRouteResult("ObterCategoria" , new { id = categoriaDTO.CategoriaId } , categoriaDTO);
     }
 
     // PUT
     [HttpPut("AtualizarCategoria/{id:int:min(1)}")]
-    public ActionResult<Categoria> Put(int id, Categoria c)
+    public ActionResult<CategoriaDTO> Put(int id, CategoriaDTO c)
     {
         _logger.LogInformation($"===== Put/Categorias/AtualizarCategoria/id = {id} =====");
         if (id != c.CategoriaId)
@@ -79,15 +91,19 @@ public class CategoriasController : ControllerBase
             return BadRequest("O id é diferente do que consta no banco de dados");
         }
 
-        var categoriaExistente = _uof.CategoriaRepository.Update(c);
+        var categoria = _mapper.Map<Categoria>(c);
+
+        var categoriaExistente = _uof.CategoriaRepository.Update(categoria);
         _uof.Commit();
 
-        return Ok(categoriaExistente);
+        var categoriaDTO = _mapper.Map<CategoriaDTO>(categoriaExistente);
+
+        return Ok(categoriaDTO);
     }
 
     // DELETE
     [HttpDelete("DeletarCategoria/{id:int:min(1)}")]
-    public ActionResult<Categoria> Delete(int id)
+    public ActionResult<CategoriaDTO> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");
         var deletarCategoria = _uof.CategoriaRepository.Get(c => c.CategoriaId == id);
@@ -100,7 +116,9 @@ public class CategoriasController : ControllerBase
         
         var categoriaExcluida = _uof.CategoriaRepository.Delete(deletarCategoria);
         _uof.Commit();
+
+        var categoriaExcluidaDTO = _mapper.Map<CategoriaDTO>(categoriaExcluida);
         
-        return Ok(categoriaExcluida);
+        return Ok(categoriaExcluidaDTO);
     }
 }

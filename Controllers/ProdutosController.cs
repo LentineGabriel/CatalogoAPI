@@ -1,4 +1,6 @@
-﻿using CatagoloAPI.Context;
+﻿using AutoMapper;
+using CatagoloAPI.Context;
+using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,16 +14,18 @@ public class ProdutosController : ControllerBase
 {
     private readonly IUnitOfWork _uof;
     private readonly ILogger<ProdutosController> _logger;
+    private readonly IMapper _mapper;
 
-    public ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger)
+    public ProdutosController(IUnitOfWork uof, ILogger<ProdutosController> logger, IMapper mapper)
     {
         _uof = uof;
         _logger = logger;
+        _mapper = mapper;
     }
 
     // GET
     [HttpGet]
-    public ActionResult<IEnumerable<Produto>> Get()
+    public ActionResult<IEnumerable<ProdutoDTO>> Get()
     {
         _logger.LogInformation("===== Get/Produtos =====");
         var todosProdutos = _uof.ProdutoRepository.GetAll();
@@ -32,12 +36,14 @@ public class ProdutosController : ControllerBase
             return NotFound("Produtos não encontrados");
         }
 
-        return Ok(todosProdutos);
+        var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(todosProdutos);
+        
+        return Ok(produtosDTO);
     }
     
     // GET PRODUTOS C/ CATEGORIA
     [HttpGet("ComCategoria/{id:int:min(1)}")]
-    public ActionResult<Produto> GetProdutosCategoria(int id)
+    public ActionResult<ProdutoDTO> GetProdutosCategoria(int id)
     {
         _logger.LogInformation("===== Get/Produtos/ComCategoria =====");
         var produtos = _uof.ProdutoRepository.GetProductsWithCategory(id);
@@ -48,12 +54,14 @@ public class ProdutosController : ControllerBase
             return NotFound("Produtos não encontrados. Por favor, verifique o ID informado!");
         }
         
-        return Ok(produtos);
+        var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(produtos);
+        
+        return Ok(produtosDTO);
     }
 
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
-    public ActionResult<Produto> GetId(int id)
+    public ActionResult<ProdutoDTO> GetId(int id)
     {
         _logger.LogInformation($"===== Get/Produtos/id = {id} =====");
         var produtoId = _uof.ProdutoRepository.Get(p => p.ProdutoId == id);
@@ -63,13 +71,15 @@ public class ProdutosController : ControllerBase
             _logger.LogInformation($"===== Get/Produtos/id = {id} não encontrado =====");
             return NotFound($"Produto com ID = {id} não encontrado!");
         }
+        
+        var produtoDTO = _mapper.Map<ProdutoDTO>(produtoId);
 
-        return Ok(produtoId);
+        return Ok(produtoDTO);
     }
 
     // POST
     [HttpPost("AdicionarProduto")]
-    public ActionResult<Produto> Post(Produto p)
+    public ActionResult<ProdutoDTO> Post(ProdutoDTO p)
     {
         _logger.LogInformation("===== Post/Produtos/AdicionarProduto =====");
         if (p == null)
@@ -78,15 +88,19 @@ public class ProdutosController : ControllerBase
             return BadRequest("Não foi possível adicionar um novo produto. Tente novamente mais tarde!");
         }
 
-        var produtoCriado = _uof.ProdutoRepository.Create(p);
+        var produto = _mapper.Map<Produto>(p);
+
+        var produtoCriado = _uof.ProdutoRepository.Create(produto);
         _uof.Commit();
 
-        return new CreatedAtRouteResult("ObterProduto" , new { id = produtoCriado.ProdutoId } , produtoCriado);
+        var novoProdutoDTO = _mapper.Map<ProdutoDTO>(produtoCriado);
+
+        return new CreatedAtRouteResult("ObterProduto" , new { id = novoProdutoDTO.ProdutoId } , novoProdutoDTO);
     }
 
     // PUT
     [HttpPut("AtualizarProduto/{id:int:min(1)}")]
-    public ActionResult<Produto> Put(int id, Produto p)
+    public ActionResult<ProdutoDTO> Put(int id, ProdutoDTO p)
     {
         _logger.LogInformation($"===== Put/Produtos/AtualizarProduto/id = {id} =====");
 
@@ -97,15 +111,19 @@ public class ProdutosController : ControllerBase
             return BadRequest("O id é diferente do que consta no banco de dados");
         }
 
-        var produtoExistente = _uof.ProdutoRepository.Update(p);
+        var produto = _mapper.Map<Produto>(p);
+
+        var produtoExistente = _uof.ProdutoRepository.Update(produto);
         _uof.Commit();
         
-        return Ok(produtoExistente);
+        var produtoExistenteDTO = _mapper.Map<ProdutoDTO>(produtoExistente);
+        
+        return Ok(produtoExistenteDTO);
     }
 
     // DELETE
     [HttpDelete("DeletarProduto/{id:int:min(1)}")]
-    public ActionResult<Produto> Delete(int id)
+    public ActionResult<ProdutoDTO> Delete(int id)
     {
         _logger.LogInformation($"===== Delete/Produtos/id = {id} =====");
         var deletarProduto = _uof.ProdutoRepository.Get(p => p.ProdutoId == id);
@@ -118,7 +136,9 @@ public class ProdutosController : ControllerBase
 
         var produtoDeletado = _uof.ProdutoRepository.Delete(deletarProduto);
         _uof.Commit();
+        
+        var produtoDeletadoDTO =  _mapper.Map<ProdutoDTO>(produtoDeletado);
 
-        return Ok(produtoDeletado);
+        return Ok(produtoDeletadoDTO);
     }
 }

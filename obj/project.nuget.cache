@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+g0zEctpYEs=",
+  "dgSpecHash": "6UgA0+7A7lc=",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\OneDrive\\Área de Trabalho\\CatalogoAPI\\CatagoloAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\gabri\\.nuget\\packages\\automapper\\15.0.1\\automapper.15.0.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\humanizer.core.af\\2.14.1\\humanizer.core.af.2.14.1.nupkg.sha512",
@@ -79,6 +80,10 @@
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.10\\microsoft.entityframeworkcore.tools.7.0.10.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.extensions.dependencymodel\\8.0.2\\microsoft.extensions.dependencymodel.8.0.2.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.0.1\\microsoft.identitymodel.jsonwebtokens.8.0.1.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.net.stringtools\\17.8.3\\microsoft.net.stringtools.17.8.3.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.openapi\\1.6.14\\microsoft.openapi.1.6.14.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\8.0.7\\microsoft.visualstudio.web.codegeneration.8.0.7.nupkg.sha512",

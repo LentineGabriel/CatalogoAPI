@@ -465,3 +465,8 @@ C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\refint\Ca
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.pdb
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.genruntimeconfig.cache
 C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\obj\Debug\net8.0\ref\CatagoloAPI.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\CatalogoAPI\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
