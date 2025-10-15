@@ -2,9 +2,12 @@
 using CatagoloAPI.Context;
 using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
+using CatagoloAPI.Pagination;
+using CatagoloAPI.Pagination.Categorias;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CatagoloAPI.Controllers;
 
@@ -39,6 +42,23 @@ public class CategoriasController : ControllerBase
         var categoriasDTO = _mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
 
         return Ok(categoriasDTO);
+    }
+
+    // GET PAGINAÇÃO
+    [HttpGet("Paginacao")]
+    public ActionResult<IEnumerable<Categoria>> GetPagination([FromQuery] CategoriasParameters categoriasParameters)
+    {
+        var categorias = _uof.CategoriaRepository.GetCategories(categoriasParameters);
+
+        return ObterCategorias(categorias);
+    }
+
+    // GET CATEGORIAS C/ FILTRO POR NOME
+    [HttpGet("nome")]
+    public ActionResult<IEnumerable<Categoria>> GetFilterNomePagination([FromQuery] CategoriasFiltroNome categoriasFiltroNome)
+    {
+        var categorias = _uof.CategoriaRepository.GetCategoriesFilteringByName(categoriasFiltroNome);
+        return ObterCategorias(categorias);
     }
 
     // GET ID
@@ -120,5 +140,23 @@ public class CategoriasController : ControllerBase
         var categoriaExcluidaDTO = _mapper.Map<CategoriaDTO>(categoriaExcluida);
         
         return Ok(categoriaExcluidaDTO);
+    }
+
+    // OTHER METHODS
+    private ActionResult<IEnumerable<Categoria>> ObterCategorias(PagedList<Categoria> categorias)
+    {
+        var metadata = new
+        {
+            categorias.TotalCount ,
+            categorias.PageSize ,
+            categorias.CurrentPage ,
+            categorias.TotalPages ,
+            categorias.HasNext ,
+            categorias.HasPrevious
+        };
+        Response.Headers.Append("X-Pagination" , JsonConvert.SerializeObject(metadata));
+
+        var categoriaDTO = _mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
+        return Ok(categoriaDTO);
     }
 }

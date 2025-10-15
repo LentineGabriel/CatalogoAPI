@@ -2,9 +2,12 @@
 using CatagoloAPI.Context;
 using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
+using CatagoloAPI.Pagination;
+using CatagoloAPI.Pagination.Produtos;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CatagoloAPI.Controllers;
 
@@ -37,10 +40,27 @@ public class ProdutosController : ControllerBase
         }
 
         var produtosDTO = _mapper.Map<IEnumerable<ProdutoDTO>>(todosProdutos);
-        
+
         return Ok(produtosDTO);
     }
-    
+
+    // GET PAGINAÇÃO
+    [HttpGet("Paginacao")]
+    public ActionResult<IEnumerable<ProdutoDTO>> GetProdutosPaginacao([FromQuery] ProdutosParameters produtosParameters)
+    {
+        var produtos = _uof.ProdutoRepository.GetProducts(produtosParameters);
+        return ObterProdutos(produtos);
+    }
+
+
+    // GET PRODUTOS C/ FILTRO DE PREÇO
+    [HttpGet("Filtro/Preco/Paginacao")]
+    public ActionResult<IEnumerable<ProdutoDTO>> GetProdutosFilterPreco([FromQuery] ProdutosFiltroPreco produtosFiltroPreco)
+    {
+        var produtos = _uof.ProdutoRepository.GetProductsFilteringByPrice(produtosFiltroPreco);
+        return ObterProdutos(produtos);
+    }
+
     // GET PRODUTOS C/ CATEGORIA
     [HttpGet("ComCategoria/{id:int:min(1)}")]
     public ActionResult<ProdutoDTO> GetProdutosCategoria(int id)
@@ -140,5 +160,23 @@ public class ProdutosController : ControllerBase
         var produtoDeletadoDTO =  _mapper.Map<ProdutoDTO>(produtoDeletado);
 
         return Ok(produtoDeletadoDTO);
+    }
+
+    // OTHER METHODS
+    private ActionResult<IEnumerable<ProdutoDTO>> ObterProdutos(PagedList<Produto> produtos)
+    {
+        var metadata = new
+        {
+            produtos.TotalCount ,
+            produtos.PageSize ,
+            produtos.CurrentPage ,
+            produtos.TotalPages ,
+            produtos.HasNext ,
+            produtos.HasPrevious
+        };
+        Response.Headers.Append("X-Pagination" , JsonConvert.SerializeObject(metadata));
+
+        var produtosDto = _mapper.Map<IEnumerable<ProdutoDTO>>(produtos);
+        return Ok(produtosDto);
     }
 }
