@@ -1,11 +1,11 @@
 ﻿using CatagoloAPI.Models;
-using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Categorias;
+using X.PagedList;
 
 namespace CatagoloAPI.Repositories.Interfaces;
 
 public interface ICategoriaRepository : IRepository<Categoria>
 {
-    Task<PagedList<Categoria>> GetCategoriesAsync(CategoriasParameters categoriasParams);
-    Task<PagedList<Categoria>> GetCategoriesFilteringByNameAsync(CategoriasFiltroNome categoriasFiltroNome);
+    Task<IPagedList<Categoria>> GetCategoriesAsync(CategoriasParameters categoriasParams);
+    Task<IPagedList<Categoria>> GetCategoriesFilteringByNameAsync(CategoriasFiltroNome categoriasFiltroNome);
 }

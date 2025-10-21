@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+liSpAkgu1I=",
+  "dgSpecHash": "oWJi4ZUS6SQ=",
   "success": true,
   "projectFilePath": "C:\\Users\\gabri\\Desktop\\CatalogoAPI\\CatagoloAPI.csproj",
   "expectedPackageFiles": [
@@ -146,6 +146,8 @@
     "C:\\Users\\gabri\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\system.threading.tasks.dataflow\\7.0.0\\system.threading.tasks.dataflow.7.0.0.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\system.windows.extensions\\7.0.0\\system.windows.extensions.7.0.0.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\x.pagedlist\\9.1.2\\x.pagedlist.9.1.2.nupkg.sha512",
+    "C:\\Users\\gabri\\.nuget\\packages\\x.pagedlist.mvc.core\\9.1.2\\x.pagedlist.mvc.core.9.1.2.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.21\\microsoft.windowsdesktop.app.ref.8.0.21.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.21\\microsoft.netcore.app.ref.8.0.21.nupkg.sha512",
     "C:\\Users\\gabri\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.21\\microsoft.aspnetcore.app.ref.8.0.21.nupkg.sha512",

@@ -3,6 +3,7 @@ using CatagoloAPI.Models;
 using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Produtos;
 using CatagoloAPI.Repositories.Interfaces;
+using X.PagedList;
 
 namespace CatagoloAPI.Repositories;
 
@@ -14,12 +15,12 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
         var produtos = await GetAllAsync();
         var produtosOrdenados = produtos.OrderBy(p => p.ProdutoId).AsQueryable();
-        var result = PagedList<Produto>.ToPagedList(produtosOrdenados, produtosParams.PageNumber, produtosParams.PageSize);
+        var result = await produtosOrdenados.ToPagedListAsync(produtosParams.PageNumber, produtosParams.PageSize);
 
         return result;
     }
 
-    public async Task<PagedList<Produto>> GetProductsFilteringByPriceAsync(ProdutosFiltroPreco produtosFiltroPreco)
+    public async Task<IPagedList<Produto>> GetProductsFilteringByPriceAsync(ProdutosFiltroPreco produtosFiltroPreco)
     {
         var produtos = await GetAllAsync();
 
@@ -41,7 +42,7 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
             }
         }
 
-        var produtosFiltrados = PagedList<Produto>.ToPagedList(produtos.AsQueryable(), produtosFiltroPreco.PageNumber, produtosFiltroPreco.PageSize);
+        var produtosFiltrados = await produtos.ToPagedListAsync(produtosFiltroPreco.PageNumber, produtosFiltroPreco.PageSize);
         return produtosFiltrados;
     }
 
@@ -53,10 +54,10 @@ public class ProdutoRepository : Repository<Produto>, IProdutoRepository
         return produtosComCategoria;
     }
 
-    async Task<PagedList<Produto>> IProdutoRepository.GetProductsAsync(ProdutosParameters produtosParams)
+    async Task<IPagedList<Produto>> IProdutoRepository.GetProductsAsync(ProdutosParameters produtosParams)
     {
         var produtos = await GetAllAsync();
-        var produtosOrdenados = PagedList<Produto>.ToPagedList(produtos.AsQueryable() , produtosParams.PageNumber , produtosParams.PageSize);
+        var produtosOrdenados = await produtos.ToPagedListAsync(produtosParams.PageNumber, produtosParams.PageSize);
 
         return produtosOrdenados;
     }

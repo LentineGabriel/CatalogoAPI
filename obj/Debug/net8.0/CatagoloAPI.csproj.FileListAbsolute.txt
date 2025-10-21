@@ -713,3 +713,5 @@ C:\Users\gabri\Desktop\CatalogoAPI\obj\Debug\net8.0\refint\CatagoloAPI.dll
 C:\Users\gabri\Desktop\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.pdb
 C:\Users\gabri\Desktop\CatalogoAPI\obj\Debug\net8.0\CatagoloAPI.genruntimeconfig.cache
 C:\Users\gabri\Desktop\CatalogoAPI\obj\Debug\net8.0\ref\CatagoloAPI.dll
+C:\Users\gabri\Desktop\CatalogoAPI\bin\Debug\net8.0\X.PagedList.dll
+C:\Users\gabri\Desktop\CatalogoAPI\bin\Debug\net8.0\X.PagedList.Mvc.Core.dll

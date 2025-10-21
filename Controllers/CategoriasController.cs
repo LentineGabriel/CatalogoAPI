@@ -8,6 +8,7 @@ using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using X.PagedList;
 
 namespace CatagoloAPI.Controllers;
 
@@ -151,16 +152,16 @@ public class CategoriasController : ControllerBase
     #endregion
 
     // OTHER METHODS
-    private ActionResult<IEnumerable<Categoria>> ObterCategorias(PagedList<Categoria> categorias)
+    private ActionResult<IEnumerable<Categoria>> ObterCategorias(IPagedList<Categoria> categorias)
     {
         var metadata = new
         {
-            categorias.TotalCount ,
+            categorias.Count ,
             categorias.PageSize ,
-            categorias.CurrentPage ,
-            categorias.TotalPages ,
-            categorias.HasNext ,
-            categorias.HasPrevious
+            categorias.PageCount ,
+            categorias.TotalItemCount ,
+            categorias.HasNextPage ,
+            categorias.HasPreviousPage
         };
         Response.Headers.Append("X-Pagination" , JsonConvert.SerializeObject(metadata));
 
