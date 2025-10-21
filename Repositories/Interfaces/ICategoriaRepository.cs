@@ -6,6 +6,6 @@ namespace CatagoloAPI.Repositories.Interfaces;
 
 public interface ICategoriaRepository : IRepository<Categoria>
 {
-    PagedList<Categoria> GetCategories(CategoriasParameters categoriasParams);
-    PagedList<Categoria> GetCategoriesFilteringByName(CategoriasFiltroNome categoriasFiltroNome);
+    Task<PagedList<Categoria>> GetCategoriesAsync(CategoriasParameters categoriasParams);
+    Task<PagedList<Categoria>> GetCategoriesFilteringByNameAsync(CategoriasFiltroNome categoriasFiltroNome);
 }

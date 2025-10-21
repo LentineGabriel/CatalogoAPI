@@ -3,7 +3,6 @@ using CatagoloAPI.Models;
 using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Categorias;
 using CatagoloAPI.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace CatagoloAPI.Repositories;
 
@@ -13,22 +12,23 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
     {
     }
 
-    public PagedList<Categoria> GetCategories(CategoriasParameters categoriasParams)
+    public async Task<PagedList<Categoria>> GetCategoriesAsync(CategoriasParameters categoriasParams)
     {
-        var categorias = GetAll().OrderBy(c => c.CategoriaId).AsQueryable();
-        var categoriasOrdenadas = PagedList<Categoria>.ToPagedList(categorias, categoriasParams.PageNumber, categoriasParams.PageSize);
+        var categorias = await GetAllAsync();
+        var categoriasOrdenadas = categorias.OrderBy(c => c.CategoriaId).AsQueryable();
+        var result = PagedList<Categoria>.ToPagedList(categoriasOrdenadas, categoriasParams.PageNumber, categoriasParams.PageSize);
 
-        return categoriasOrdenadas;
+        return result;
     }
 
-    public PagedList<Categoria> GetCategoriesFilteringByName(CategoriasFiltroNome categoriasFiltroNome)
+    public async Task<PagedList<Categoria>> GetCategoriesFilteringByNameAsync(CategoriasFiltroNome categoriasFiltroNome)
     {
-        var categoria = GetAll().AsQueryable();
+        var categoria = await GetAllAsync();
         if(!string.IsNullOrEmpty(categoriasFiltroNome.Nome))
         {
-            categoria = categoria.Where(c => c.CategoriaNome.Contains(categoriasFiltroNome.Nome));
+            categoria = categoria.Where(c => c.CategoriaNome!.Contains(categoriasFiltroNome.Nome));
         }
-        var categoriasFiltradas = PagedList<Categoria>.ToPagedList(categoria , categoriasFiltroNome.PageNumber , categoriasFiltroNome.PageSize);
+        var categoriasFiltradas = PagedList<Categoria>.ToPagedList(categoria.AsQueryable() , categoriasFiltroNome.PageNumber , categoriasFiltroNome.PageSize);
 
         return categoriasFiltradas;
     }

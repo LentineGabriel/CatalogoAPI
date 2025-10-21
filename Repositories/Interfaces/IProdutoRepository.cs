@@ -6,7 +6,7 @@ namespace CatagoloAPI.Repositories.Interfaces;
 
 public interface IProdutoRepository  : IRepository<Produto>
 {
-    PagedList<Produto> GetProducts(ProdutosParameters produtosParams);
-    PagedList<Produto> GetProductsFilteringByPrice(ProdutosFiltroPreco produtosFiltroPreco);
-    IEnumerable<Produto> GetProductsWithCategory(int id);
+    Task<PagedList<Produto>> GetProductsAsync(ProdutosParameters produtosParams);
+    Task<PagedList<Produto>> GetProductsFilteringByPriceAsync(ProdutosFiltroPreco produtosFiltroPreco);
+    Task<IEnumerable<Produto>> GetProductsWithCategoryAsync(int id);
 }
