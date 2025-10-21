@@ -16,7 +16,7 @@ public class Repository<T> : IRepository<T> where T : class
     
     public async Task<IEnumerable<T>> GetAllAsync()  => await _context.Set<T>().AsNoTracking().ToListAsync();
 
-    public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate) => await _context.Set<T>().FirstOrDefaultAsync(predicate);
+    public async Task<T?> GetIdAsync(Expression<Func<T, bool>> predicate) => await _context.Set<T>().FirstOrDefaultAsync(predicate);
 
     public T Create(T item)
     {

@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Get",
+    "Method": "GetAsync",
     "RelativePath": "Categorias",
     "HttpMethod": "GET",
     "IsController": true,
@@ -21,7 +21,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Get",
+    "Method": "GetIdAsync",
     "RelativePath": "Categorias/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -48,7 +48,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Post",
+    "Method": "PostAsync",
     "RelativePath": "Categorias/AdicionarCategoria",
     "HttpMethod": "POST",
     "IsController": true,
@@ -74,7 +74,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Put",
+    "Method": "PutAsync",
     "RelativePath": "Categorias/AtualizarCategoria/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -105,7 +105,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "Delete",
+    "Method": "DeleteAsync",
     "RelativePath": "Categorias/DeletarCategoria/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -131,7 +131,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "GetFilterNomePagination",
+    "Method": "GetFilterNomePaginationAsync",
     "RelativePath": "Categorias/nome",
     "HttpMethod": "GET",
     "IsController": true,
@@ -167,7 +167,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.CategoriasController",
-    "Method": "GetPagination",
+    "Method": "GetPaginationAsync",
     "RelativePath": "Categorias/Paginacao",
     "HttpMethod": "GET",
     "IsController": true,
@@ -198,7 +198,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "Get",
+    "Method": "GetAsync",
     "RelativePath": "Produtos",
     "HttpMethod": "GET",
     "IsController": true,
@@ -245,7 +245,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "Post",
+    "Method": "PostAsync",
     "RelativePath": "Produtos/AdicionarProduto",
     "HttpMethod": "POST",
     "IsController": true,
@@ -271,7 +271,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "Put",
+    "Method": "PutAsync",
     "RelativePath": "Produtos/AtualizarProduto/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -302,7 +302,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "GetProdutosCategoria",
+    "Method": "GetProdutosCategoriaAsync",
     "RelativePath": "Produtos/ComCategoria/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -328,7 +328,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "Delete",
+    "Method": "DeleteAsync",
     "RelativePath": "Produtos/DeletarProduto/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -354,7 +354,7 @@
   },
   {
     "ContainingType": "CatagoloAPI.Controllers.ProdutosController",
-    "Method": "GetProdutosFilterPreco",
+    "Method": "GetProdutosFilterPrecoAsync",
     "RelativePath": "Produtos/Filtro/Preco/Paginacao",
     "HttpMethod": "GET",
     "IsController": true,
