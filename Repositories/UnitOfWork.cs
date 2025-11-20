@@ -5,6 +5,7 @@ namespace CatagoloAPI.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
+    #region Props/Ctor
     private IProdutoRepository? _produtoRepo;
     private ICategoriaRepository? _categoriaRepo;
     public AppDbContext _context;
@@ -13,30 +14,21 @@ public class UnitOfWork : IUnitOfWork
     {
         _context = context;
     }
+    #endregion
 
+    #region Methods
     public IProdutoRepository ProdutoRepository
     {
-        get
-        {
-            return _produtoRepo = _produtoRepo ?? new ProdutoRepository(_context);
-        }
+        get => _produtoRepo = _produtoRepo ?? new ProdutoRepository(_context);
     }
 
     public ICategoriaRepository CategoriaRepository
     {
-        get
-        {
-            return _categoriaRepo  = _categoriaRepo ?? new CategoriaRepository(_context);
-        }
+        get => _categoriaRepo = _categoriaRepo ?? new CategoriaRepository(_context);
     }
 
-    public async Task CommitAsync()
-    {
-        await _context.SaveChangesAsync();
-    }
+    public async Task CommitAsync() => await _context.SaveChangesAsync();
 
-    public async Task DisposeAsync()
-    {
-        await _context.DisposeAsync();
-    }
+    public async Task DisposeAsync() => await _context.DisposeAsync();
+    #endregion
 }

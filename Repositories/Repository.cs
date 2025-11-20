@@ -7,13 +7,15 @@ namespace CatagoloAPI.Repositories;
 
 public class Repository<T> : IRepository<T> where T : class
 {
+    #region Props/Ctor
     protected readonly AppDbContext _context;
 
     public Repository(AppDbContext context)
     {
         _context = context;
     }
-    
+    #endregion
+
     public async Task<IEnumerable<T>> GetAllAsync()  => await _context.Set<T>().AsNoTracking().ToListAsync();
 
     public async Task<T?> GetIdAsync(Expression<Func<T, bool>> predicate) => await _context.Set<T>().FirstOrDefaultAsync(predicate);

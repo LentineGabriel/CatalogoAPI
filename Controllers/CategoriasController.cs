@@ -16,6 +16,7 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class CategoriasController : ControllerBase
 {
+    #region Props/Ctor
     private readonly IUnitOfWork _uof;
     private readonly ILogger<CategoriasController> _logger;
     private readonly IMapper _mapper;
@@ -26,6 +27,7 @@ public class CategoriasController : ControllerBase
         _logger = logger;
         _mapper = mapper;
     }
+    #endregion
 
     #region GET
     // GET
@@ -151,7 +153,7 @@ public class CategoriasController : ControllerBase
     }
     #endregion
 
-    // OTHER METHODS
+    #region Auxiliary Methods
     private ActionResult<IEnumerable<Categoria>> ObterCategorias(IPagedList<Categoria> categorias)
     {
         var metadata = new
@@ -168,4 +170,5 @@ public class CategoriasController : ControllerBase
         var categoriaDTO = _mapper.Map<IEnumerable<CategoriaDTO>>(categorias);
         return Ok(categoriaDTO);
     }
+    #endregion
 }

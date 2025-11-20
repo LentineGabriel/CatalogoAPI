@@ -16,6 +16,7 @@ namespace CatagoloAPI.Controllers;
 [ApiController]
 public class ProdutosController : ControllerBase
 {
+    #region Props/Ctor
     private readonly IUnitOfWork _uof;
     private readonly ILogger<ProdutosController> _logger;
     private readonly IMapper _mapper;
@@ -26,6 +27,7 @@ public class ProdutosController : ControllerBase
         _logger = logger;
         _mapper = mapper;
     }
+    #endregion
 
     #region GET
     // GET
@@ -170,7 +172,7 @@ public class ProdutosController : ControllerBase
     }
     #endregion
 
-    // OTHER METHODS
+    #region Auxiliary Methods
     private ActionResult<IEnumerable<ProdutoDTO>> ObterProdutos(IPagedList<Produto> produtos)
     {
         var metadata = new
@@ -187,4 +189,5 @@ public class ProdutosController : ControllerBase
         var produtosDto = _mapper.Map<IEnumerable<ProdutoDTO>>(produtos);
         return Ok(produtosDto);
     }
+    #endregion
 }

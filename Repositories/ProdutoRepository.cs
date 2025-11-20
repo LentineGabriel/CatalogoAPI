@@ -1,6 +1,5 @@
 ﻿using CatagoloAPI.Context;
 using CatagoloAPI.Models;
-using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Produtos;
 using CatagoloAPI.Repositories.Interfaces;
 using X.PagedList;
@@ -9,7 +8,9 @@ namespace CatagoloAPI.Repositories;
 
 public class ProdutoRepository : Repository<Produto>, IProdutoRepository
 {
+    #region Ctor
     public ProdutoRepository(AppDbContext context) : base(context) { }
+    #endregion
 
     public async Task<IEnumerable<Produto>> GetProductsAsync(ProdutosParameters produtosParams)
     {

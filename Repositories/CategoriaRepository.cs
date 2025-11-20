@@ -1,6 +1,5 @@
 ﻿using CatagoloAPI.Context;
 using CatagoloAPI.Models;
-using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Categorias;
 using CatagoloAPI.Repositories.Interfaces;
 using X.PagedList;
@@ -9,9 +8,9 @@ namespace CatagoloAPI.Repositories;
 
 public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
 {
-    public CategoriaRepository(AppDbContext context) : base(context)
-    {
-    }
+    #region Ctor
+    public CategoriaRepository(AppDbContext context) : base(context) { }
+    #endregion
 
     public async Task<IPagedList<Categoria>> GetCategoriesAsync(CategoriasParameters categoriasParams)
     {
@@ -25,10 +24,8 @@ public class CategoriaRepository : Repository<Categoria>, ICategoriaRepository
     public async Task<IPagedList<Categoria>> GetCategoriesFilteringByNameAsync(CategoriasFiltroNome categoriasFiltroNome)
     {
         var categoria = await GetAllAsync();
-        if(!string.IsNullOrEmpty(categoriasFiltroNome.Nome))
-        {
-            categoria = categoria.Where(c => c.CategoriaNome!.Contains(categoriasFiltroNome.Nome));
-        }
+        if(!string.IsNullOrEmpty(categoriasFiltroNome.Nome)) categoria = categoria.Where(c => c.CategoriaNome!.Contains(categoriasFiltroNome.Nome));
+        
         var categoriasFiltradas = await categoria.ToPagedListAsync(categoriasFiltroNome.PageNumber, categoriasFiltroNome.PageSize);
 
         return categoriasFiltradas;

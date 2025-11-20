@@ -2,6 +2,7 @@
 namespace CatagoloAPI.Logging;
 public class CustomerLogger : ILogger
 {
+    #region Props/Ctor
     readonly string loggerName;
     readonly CustomLoggerProviderConfig loggerConfig;
 
@@ -10,29 +11,25 @@ public class CustomerLogger : ILogger
         loggerName = name;
         loggerConfig = config;
     }
+    #endregion
 
-    public IDisposable? BeginScope<TState>(TState state)
-    {
-        return null;
-    }
+    #region Methods
+    public IDisposable? BeginScope<TState>(TState state) => null;
 
-    public bool IsEnabled(LogLevel logLevel)
-    {
-        return logLevel == loggerConfig.LogLevel;
-    }
+    public bool IsEnabled(LogLevel logLevel) => logLevel == loggerConfig.LogLevel;
 
     public void Log<TState>(LogLevel logLevel , EventId eventId , TState state , Exception? exception , Func<TState , Exception? , string> formatter)
     {
         string message = $"{logLevel.ToString()}: {eventId.Id} - {formatter(state , exception)}";
 
-        EscreverNoTexto(message);
+        WritingInText(message);
     }
 
-    private void EscreverNoTexto(string message)
+    private void WritingInText(string message)
     {
-        var caminhoArquivo = Path.Combine(Path.GetTempPath() , "catalogo.log");
+        var path = Path.Combine(Path.GetTempPath() , "catalogo.log");
 
-        using(StreamWriter sw = new StreamWriter(caminhoArquivo , true))
+        using(StreamWriter sw = new StreamWriter(path , true))
         {
             try
             {
@@ -45,4 +42,5 @@ public class CustomerLogger : ILogger
             }
         }
     }
+    #endregion
 }

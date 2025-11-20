@@ -1,6 +1,7 @@
 ﻿namespace CatagoloAPI.Pagination;
 public class PagedList<T> : List<T> where T : class
 {
+    #region Props/Ctor
     public int CurrentPage { get; private set; }
     public int TotalPages { get; private set; }
     public int PageSize { get; private set; }
@@ -16,7 +17,9 @@ public class PagedList<T> : List<T> where T : class
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
         AddRange(items);
     }
+    #endregion
 
+    #region Methods
     public static PagedList<T> ToPagedList(IQueryable<T> source, int pageNumber, int pageSize)
     {
         var count = source.Count();
@@ -24,4 +27,5 @@ public class PagedList<T> : List<T> where T : class
 
         return new PagedList<T>(items, count, pageNumber, pageSize);
     }
+    #endregion
 }

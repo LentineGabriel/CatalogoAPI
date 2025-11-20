@@ -8,6 +8,7 @@ namespace CatagoloAPI.Models;
 [Table("Produtos")]
 public class Produto : IValidatableObject
 {
+    #region Props
     [Key]
     public int ProdutoId { get; set; }
 
@@ -41,7 +42,9 @@ public class Produto : IValidatableObject
 
     [JsonIgnore]
     public Categoria? Categoria { get; set; }
+    #endregion
 
+    #region Methods
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (!string.IsNullOrEmpty(ProdutoNome))
@@ -58,4 +61,5 @@ public class Produto : IValidatableObject
             }
         }
     }
+    #endregion
 }
