@@ -5,6 +5,7 @@ using CatagoloAPI.Models;
 using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Categorias;
 using CatagoloAPI.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -32,6 +33,7 @@ public class CategoriasController : ControllerBase
     #region GET
     // GET
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetAsync()
     {
         _logger.LogInformation("===== Get/TodasAsCategorias =====");
