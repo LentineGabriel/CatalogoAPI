@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using CatagoloAPI.DTO.Mappings;
 using CatagoloAPI.Repositories;
 using CatagoloAPI.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,8 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer();
 #endregion
 
 #region Dataase/Instances
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
 var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
                                             options.UseMySql(mySqlConnectionString ,
