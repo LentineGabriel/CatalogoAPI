@@ -9,6 +9,10 @@ using CatagoloAPI.DTO.Mappings;
 using CatagoloAPI.Repositories;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using CatagoloAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,11 +47,32 @@ builder.Services.AddSwaggerGen(c =>
 
 #region Authorization/Authentication
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+
+var secretKey = builder.Configuration["JWT:SecretKey"] ?? throw new ArgumentException("JWT:SecretKey is missing in configuration.");
+builder.Services.AddAuthentication(op =>
+{
+    op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    op.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(op =>
+{
+    op.SaveToken = true;
+    op.RequireHttpsMetadata = false;
+    op.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true ,
+        ValidateAudience = true ,
+        ValidateLifetime = true ,
+        ValidateIssuerSigningKey = true ,
+        ClockSkew = TimeSpan.Zero ,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"] ,
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"] ,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
+});
 #endregion
 
 #region Dataase/Instances
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
