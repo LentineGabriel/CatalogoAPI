@@ -7,7 +7,7 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 ## 🛠 Stack utilizada
 
-- [.NET 8](https://dotnet.microsoft.com/)
+- [.NET 10](https://dotnet.microsoft.com/)
 - ASP.NET Core Web API
 - MySQL
 - Swagger
@@ -100,10 +100,15 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 ---
 
+### 🔹 Usuários (em desenvolvimento / in development)
+
+---
+
 ## ✅ Funcionalidades implementadas
 
 - [x] CRUD de produtos
 - [x] CRUD de categorias
+- [ ] CRUD de usuários (em desenvolvimento)
 - [x] Relacionamento entre produtos e categorias
 - [x] Swagger UI para testes
 
