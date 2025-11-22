@@ -1,29 +1,27 @@
+using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using CatagoloAPI.Context;
 using CatagoloAPI.Extensions;
 using CatagoloAPI.Filters;
 using CatagoloAPI.Logging;
-using System.Text.Json.Serialization;
 using CatagoloAPI.DTO.Mappings;
 using CatagoloAPI.Repositories;
 using CatagoloAPI.Repositories.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using CatagoloAPI.Models;
 using CatagoloAPI.Services.Interfaces;
+using CatagoloAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-#region Services
-// Add services to the container.
 
 #region Controllers/Swagger
 builder.Services.AddControllers(op =>
 {
-   op.Filters.Add(typeof(ApiExceptionFilter));
+    op.Filters.Add(typeof(ApiExceptionFilter));
 }).AddJsonOptions(op =>
 {
     op.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -43,22 +41,73 @@ builder.Services.AddSwaggerGen(c =>
             Email = "gabriellentine66@gmail.com"
         }
     });
+
+    c.AddSecurityDefinition("Bearer" , new OpenApiSecurityScheme()
+    {
+        Name = "Authorization" ,
+        Type = SecuritySchemeType.ApiKey ,
+        Scheme = "Bearer" ,
+        BearerFormat = "JWT" ,
+        In = ParameterLocation.Header ,
+        Description = "Insira 'Bearer {seu_token}'."
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
 });
 #endregion
 
-#region Authorization/Authentication
-builder.Services.AddAuthorization();
+#region Identity (Blocked Cookies)
+builder.Services.AddIdentity<ApplicationUser , IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
-var secretKey = builder.Configuration["JWT:SecretKey"] ?? throw new ArgumentException("JWT:SecretKey is missing in configuration.");
-builder.Services.AddAuthentication(op =>
+// ISSO AQUI É O QUE RESOLVE O 401
+builder.Services.ConfigureApplicationCookie(options =>
 {
-    op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    op.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(op =>
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = 401;
+        return Task.CompletedTask;
+    };
+
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = 403;
+        return Task.CompletedTask;
+    };
+});
+#endregion
+
+#region JWT Authentication
+var secretKey = builder.Configuration["JWT:SecretKey"]
+    ?? throw new ArgumentException("JWT:SecretKey is missing in configuration.");
+
+var key = Encoding.UTF8.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(options =>
 {
-    op.SaveToken = true;
-    op.RequireHttpsMetadata = false;
-    op.TokenValidationParameters = new TokenValidationParameters()
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true ,
         ValidateAudience = true ,
@@ -67,37 +116,33 @@ builder.Services.AddAuthentication(op =>
         ClockSkew = TimeSpan.Zero ,
         ValidAudience = builder.Configuration["JWT:ValidAudience"] ,
         ValidIssuer = builder.Configuration["JWT:ValidIssuer"] ,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
 #endregion
 
-#region Dataase/Instances
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-
+#region Database & DI
 var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-                                            options.UseMySql(mySqlConnectionString ,
-                                            ServerVersion.AutoDetect(mySqlConnectionString)));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddAutoMapper(cfg => {}, typeof(MappingProfile));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(mySqlConnectionString , ServerVersion.AutoDetect(mySqlConnectionString)));
+
+builder.Services.AddScoped(typeof(IRepository<>) , typeof(Repository<>));
+builder.Services.AddScoped<ICategoriaRepository , CategoriaRepository>();
+builder.Services.AddScoped<IProdutoRepository , ProdutoRepository>();
+builder.Services.AddScoped<ITokenService , TokenService>();
+builder.Services.AddScoped<IUnitOfWork , UnitOfWork>();
+builder.Services.AddAutoMapper(cfg => { } , typeof(MappingProfile));
 
 builder.Logging.AddProvider(new CustomLoggerProvider(new CustomLoggerProviderConfig
 {
     LogLevel = LogLevel.Information
 }));
 #endregion
-#endregion
 
 #region App
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -106,6 +151,7 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

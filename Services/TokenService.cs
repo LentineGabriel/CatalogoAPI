@@ -19,6 +19,8 @@ public class TokenService : ITokenService
         {
             Subject = new ClaimsIdentity(claims) ,
             Expires = DateTime.UtcNow.AddMinutes(configuration.GetSection("JWT").GetValue<double>("TokenValidityInMinutes")) ,
+            IssuedAt = DateTime.UtcNow ,
+            NotBefore = DateTime.UtcNow ,
             Audience = configuration.GetSection("JWT").GetValue<string>("ValidAudience") ,
             Issuer = configuration.GetSection("JWT").GetValue<string>("ValidIssuer") ,
             SigningCredentials = signingCredentials
@@ -33,9 +35,10 @@ public class TokenService : ITokenService
     public string GenerateRefreshToken()
     {
         var secureRandomBytes = new byte[128];
-        using var randomNumberGenerator = RandomNumberGenerator.Create();
 
+        using var randomNumberGenerator = RandomNumberGenerator.Create();
         randomNumberGenerator.GetBytes(secureRandomBytes);
+        
         var refreshToken = Convert.ToBase64String(secureRandomBytes);
 
         return refreshToken;
@@ -49,8 +52,8 @@ public class TokenService : ITokenService
             ValidateAudience = false ,
             ValidateIssuer = false ,
             ValidateIssuerSigningKey = true ,
-            ValidateLifetime = false ,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)) ,
+            ValidateLifetime = false
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
