@@ -10,6 +10,55 @@
     "version": "v1"
   },
   "paths": {
+    "/Auth/CriarPerfil": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "roleName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Auth/AdicionarUsuarioAoPerfil": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roleName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/Auth/Login": {
       "post": {
         "tags": [
@@ -41,7 +90,7 @@
         }
       }
     },
-    "/Auth/Register": {
+    "/Auth/RegistrarUsuário": {
       "post": {
         "tags": [
           "Auth"
@@ -72,7 +121,7 @@
         }
       }
     },
-    "/Auth/Refresh-Token": {
+    "/Auth/RefreshToken": {
       "post": {
         "tags": [
           "Auth"
@@ -103,7 +152,7 @@
         }
       }
     },
-    "/Auth/Revoke/{username}": {
+    "/Auth/RevogarToken/{username}": {
       "post": {
         "tags": [
           "Auth"

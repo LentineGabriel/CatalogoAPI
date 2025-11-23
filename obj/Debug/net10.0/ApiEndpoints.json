@@ -1,6 +1,43 @@
 [
   {
     "ContainingType": "CatagoloAPI.Controllers.AuthController",
+    "Method": "AddUserToRole",
+    "RelativePath": "Auth/AdicionarUsuarioAoPerfil",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CatagoloAPI.Controllers.AuthController",
+    "Method": "CreateRole",
+    "RelativePath": "Auth/CriarPerfil",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CatagoloAPI.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "Auth/Login",
     "HttpMethod": "POST",
@@ -18,7 +55,7 @@
   {
     "ContainingType": "CatagoloAPI.Controllers.AuthController",
     "Method": "RefreshToken",
-    "RelativePath": "Auth/Refresh-Token",
+    "RelativePath": "Auth/RefreshToken",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -34,7 +71,7 @@
   {
     "ContainingType": "CatagoloAPI.Controllers.AuthController",
     "Method": "Register",
-    "RelativePath": "Auth/Register",
+    "RelativePath": "Auth/RegistrarUsu\u00E1rio",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -50,7 +87,7 @@
   {
     "ContainingType": "CatagoloAPI.Controllers.AuthController",
     "Method": "Revoke",
-    "RelativePath": "Auth/Revoke/{username}",
+    "RelativePath": "Auth/RevogarToken/{username}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
