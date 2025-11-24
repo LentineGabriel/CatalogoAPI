@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using CatagoloAPI.Context;
 using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
-using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Categorias;
 using CatagoloAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using X.PagedList;
 
@@ -33,7 +30,7 @@ public class CategoriasController : ControllerBase
     #region GET
     // GET
     [HttpGet]
-    [Authorize]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<CategoriaDTO>>> GetAsync()
     {
         _logger.LogInformation("===== Get/TodasAsCategorias =====");
@@ -52,6 +49,7 @@ public class CategoriasController : ControllerBase
 
     // GET PAGINAÇÃO
     [HttpGet("Paginacao")]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<Categoria>>> GetPaginationAsync([FromQuery] CategoriasParameters categoriasParameters)
     {
         var categorias = await _uof.CategoriaRepository.GetCategoriesAsync(categoriasParameters);
@@ -61,6 +59,7 @@ public class CategoriasController : ControllerBase
 
     // GET CATEGORIAS C/ FILTRO POR NOME
     [HttpGet("nome")]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<Categoria>>> GetFilterNomePaginationAsync([FromQuery] CategoriasFiltroNome categoriasFiltroNome)
     {
         var categorias = await _uof.CategoriaRepository.GetCategoriesFilteringByNameAsync(categoriasFiltroNome);
@@ -69,6 +68,7 @@ public class CategoriasController : ControllerBase
 
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<CategoriaDTO>> GetIdAsync(int id)
     {
         _logger.LogInformation($"===== Get/Categorias/id = {id} =====");
@@ -89,6 +89,7 @@ public class CategoriasController : ControllerBase
     #region POST
     // POST
     [HttpPost("AdicionarCategoria")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<CategoriaDTO>> PostAsync(CategoriaDTO c)
     {
         _logger.LogInformation("===== Post/Categorias/AdicionarCategoria =====");
@@ -112,6 +113,7 @@ public class CategoriasController : ControllerBase
     #region PUT
     // PUT
     [HttpPut("AtualizarCategoria/{id:int:min(1)}")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<CategoriaDTO>> PutAsync(int id, CategoriaDTO c)
     {
         _logger.LogInformation($"===== Put/Categorias/AtualizarCategoria/id = {id} =====");
@@ -135,6 +137,7 @@ public class CategoriasController : ControllerBase
     #region DELETE
     // DELETE
     [HttpDelete("DeletarCategoria/{id:int:min(1)}")]
+    [Authorize(Policy = "BossOrSuperAdmin")]
     public async Task<ActionResult<CategoriaDTO>> DeleteAsync(int id)
     {
         _logger.LogInformation($"===== Delete/Categorias/AtualizarCategoria/id = {id} =====");

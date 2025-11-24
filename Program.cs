@@ -121,6 +121,24 @@ builder.Services.AddAuthentication(options =>
 });
 #endregion
 
+#region Policies
+builder.Services.AddAuthorization(op =>
+{
+    // all
+    op.AddPolicy("AllRoles", policy => policy.RequireRole("Boss", "SuperAdmin", "Admin", "User"));
+
+    // or
+    op.AddPolicy("BossOrSuperAdminOrAdmin" , policy => policy.RequireRole("Boss", "SuperAdmin", "Admin"));
+    op.AddPolicy("BossOrSuperAdmin", policy => policy.RequireRole("Boss", "SuperAdmin"));
+
+    // only
+    op.AddPolicy("BossOnly", policy => policy.RequireRole("Boss"));
+    op.AddPolicy("SuperAdminOnly", policy => policy.RequireRole("SuperAdmin"));
+    op.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    op.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+});
+#endregion
+
 #region Database & DI
 var mySqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 

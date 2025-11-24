@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using CatagoloAPI.Context;
 using CatagoloAPI.DTO;
 using CatagoloAPI.Models;
-using CatagoloAPI.Pagination;
 using CatagoloAPI.Pagination.Produtos;
 using CatagoloAPI.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using X.PagedList;
 
@@ -32,6 +30,7 @@ public class ProdutosController : ControllerBase
     #region GET
     // GET
     [HttpGet]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetAsync()
     {
         _logger.LogInformation("===== Get/Produtos =====");
@@ -50,6 +49,7 @@ public class ProdutosController : ControllerBase
 
     // GET PAGINAÇÃO
     [HttpGet("Paginacao")]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutosPaginacao([FromQuery] ProdutosParameters produtosParameters)
     {
         var produtos = await _uof.ProdutoRepository.GetProductsAsync(produtosParameters);
@@ -58,6 +58,7 @@ public class ProdutosController : ControllerBase
 
     // GET PRODUTOS C/ FILTRO DE PREÇO
     [HttpGet("Filtro/Preco/Paginacao")]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<IEnumerable<ProdutoDTO>>> GetProdutosFilterPrecoAsync([FromQuery] ProdutosFiltroPreco produtosFiltroPreco)
     {
         var produtos = await _uof.ProdutoRepository.GetProductsFilteringByPriceAsync(produtosFiltroPreco);
@@ -66,6 +67,7 @@ public class ProdutosController : ControllerBase
 
     // GET PRODUTOS C/ CATEGORIA
     [HttpGet("ComCategoria/{id:int:min(1)}")]
+    [Authorize(Policy = "AllRoles")]
     public async Task<ActionResult<ProdutoDTO>> GetProdutosCategoriaAsync(int id)
     {
         _logger.LogInformation("===== Get/Produtos/ComCategoria =====");
@@ -84,6 +86,7 @@ public class ProdutosController : ControllerBase
 
     // GET ID
     [HttpGet("{id:int:min(1)}", Name = "ObterProduto")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<ProdutoDTO>> GetId(int id)
     {
         _logger.LogInformation($"===== Get/Produtos/id = {id} =====");
@@ -104,6 +107,7 @@ public class ProdutosController : ControllerBase
     #region POST
     // POST
     [HttpPost("AdicionarProduto")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<ProdutoDTO>> PostAsync(ProdutoDTO p)
     {
         _logger.LogInformation("===== Post/Produtos/AdicionarProduto =====");
@@ -127,6 +131,7 @@ public class ProdutosController : ControllerBase
     #region PUT
     // PUT
     [HttpPut("AtualizarProduto/{id:int:min(1)}")]
+    [Authorize(Policy = "BossOrSuperAdminOrAdmin")]
     public async Task<ActionResult<ProdutoDTO>> PutAsync(int id, ProdutoDTO p)
     {
         _logger.LogInformation($"===== Put/Produtos/AtualizarProduto/id = {id} =====");
@@ -152,6 +157,7 @@ public class ProdutosController : ControllerBase
     #region DELETE
     // DELETE
     [HttpDelete("DeletarProduto/{id:int:min(1)}")]
+    [Authorize(Policy = "BossOrSuperAdmin")]
     public async Task<ActionResult<ProdutoDTO>> DeleteAsync(int id)
     {
         _logger.LogInformation($"===== Delete/Produtos/id = {id} =====");
