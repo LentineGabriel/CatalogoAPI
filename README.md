@@ -108,7 +108,7 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 - [x] CRUD de produtos
 - [x] CRUD de categorias
-- [ ] CRUD de usuários (em desenvolvimento)
+- [x] CRUD de usuários
 - [x] Relacionamento entre produtos e categorias
 - [x] Swagger UI para testes
 
