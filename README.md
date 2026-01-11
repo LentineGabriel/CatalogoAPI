@@ -100,7 +100,25 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 ---
 
-### 🔹 Usuários (em desenvolvimento / in development)
+### 🔹 Usuários
+
+- **Criar Perfil**
+  - `POST /CriarPerfil`
+
+- **Adicionar Usuário ao Perfil**
+  - `POST /AdicionarUsuarioAoPerfil`
+
+- **Login**
+  - `POST /Login`
+
+- **Registrar Usuário**
+  - `POST /RegistrarUsuário`
+
+- **Refresh Token**
+  - `POST /RefreshToken`
+
+- **Revogar Token**
+  - `POST /RevogarToken/{username}`
 
 ---
 
