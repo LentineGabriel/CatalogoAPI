@@ -137,6 +137,15 @@ builder.Services.AddAuthorization(op =>
     op.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     op.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
 });
+
+var origensComAcessoPermitido = "_origensComAcessoPermitido";
+builder.Services.AddCors(op =>
+{
+    op.AddPolicy(name: origensComAcessoPermitido , policy =>
+    {
+        policy.WithOrigins("https://apirequest.io/");
+    });
+});
 #endregion
 
 #region Database & DI
@@ -169,6 +178,9 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(origensComAcessoPermitido);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
