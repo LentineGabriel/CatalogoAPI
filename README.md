@@ -100,7 +100,25 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 ---
 
-### 🔹 Usuários (em desenvolvimento / in development)
+### 🔹 Usuários
+
+- **Criar Perfil**
+  - `POST /CriarPerfil`
+
+- **Adicionar Usuário ao Perfil**
+  - `POST /AdicionarUsuarioAoPerfil`
+
+- **Login**
+  - `POST /Login`
+
+- **Registrar Usuário**
+  - `POST /RegistrarUsuário`
+
+- **Refresh Token**
+  - `POST /RefreshToken`
+
+- **Revogar Token**
+  - `POST /RevogarToken/{username}`
 
 ---
 
@@ -108,7 +126,7 @@ RESTful API for managing products and categories. It allows you to register, edi
 
 - [x] CRUD de produtos
 - [x] CRUD de categorias
-- [ ] CRUD de usuários (em desenvolvimento)
+- [x] CRUD de usuários
 - [x] Relacionamento entre produtos e categorias
 - [x] Swagger UI para testes
 
